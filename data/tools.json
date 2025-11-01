@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "title": "Slack Standup Bot",
+      "price": "$29",
+      "image": "assets/standup-bot.svg",
+      "description": "Automate daily standups in Slack with reminders, summaries, and actionable follow-ups.",
+      "link": "mailto:hello@takotools.com?subject=Slack%20Standup%20Bot",
+      "ctaText": "Buy Now"
+    },
+    {
+      "title": "Lead Scoring Bot",
+      "price": "$49",
+      "image": "assets/lead-score.svg",
+      "description": "Get alerts when leads are hot using your CRM, spreadsheets, and custom scoring rules.",
+      "link": "mailto:hello@takotools.com?subject=Lead%20Scoring%20Bot",
+      "ctaText": "Buy Now",
+      "secondaryCta": {
+        "text": "See features",
+        "link": "#pricing"
+      }
+    },
+    {
+      "title": "AI Support Sidekick",
+      "price": "$79",
+      "image": "assets/ai-support.svg",
+      "description": "Give your support team an AI teammate that drafts replies, triages tickets, and updates macros automatically.",
+      "link": "mailto:hello@takotools.com?subject=AI%20Support%20Sidekick",
+      "ctaText": "Talk to Sales"
+    }
+  ]
+}

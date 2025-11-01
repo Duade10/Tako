@@ -1,0 +1,160 @@
+{
+  "hero": {
+    "title": "Internal Tools That Work Like Magic 🐙",
+    "subtitle": "We build Slack bots, automations, and AI assistants so your team doesn’t have to.",
+    "ctaText": "Book a Free Demo",
+    "ctaLink": "#contact",
+    "note": "Custom automations delivered in 7 days or less."
+  },
+  "capabilities": {
+    "title": "What We Build",
+    "items": [
+      "Slack Bots",
+      "Workflow Automations",
+      "AI Assistants",
+      "Dashboards",
+      "Sheet/CRM Sync"
+    ]
+  },
+  "useCases": {
+    "title": "Popular Use Cases",
+    "subtitle": "A taste of the octo-magic teams ship with Tako.",
+    "cards": [
+      {
+        "title": "Standup bot in Slack",
+        "description": "Asks for updates, nudges late teammates, and posts summaries before your coffee cools.",
+        "icon": "☕"
+      },
+      {
+        "title": "Guest check-in system",
+        "description": "Capture lobby visitors, notify hosts instantly, and sync everything to your CRM.",
+        "icon": "🛎️"
+      },
+      {
+        "title": "Lead scoring alert system",
+        "description": "Score leads with your secret sauce and alert sales when it’s time to pounce.",
+        "icon": "⚡"
+      },
+      {
+        "title": "AI support bot",
+        "description": "Resolves FAQs, escalates edge cases, and keeps the support queue squeaky clean.",
+        "icon": "🤖"
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "High-touch service with quick tentacles.",
+    "steps": [
+      {
+        "title": "Book a 15-min call",
+        "description": "We map out the workflow, define success, and pick the right tentacles for the job."
+      },
+      {
+        "title": "We build in 7 days",
+        "description": "Design, dev, and QA happen in a single sprint. You see progress in Slack every step."
+      },
+      {
+        "title": "You save hours every week",
+        "description": "Launch, iterate, and scale without extra headcount. Your team focuses on the deep work."
+      }
+    ]
+  },
+  "marketplace": {
+    "title": "Buy Tools & Bots",
+    "subtitle": "Ready-made bots you can start using today. Customized installs included."
+  },
+  "pricing": {
+    "title": "Pricing",
+    "subtitle": "Pick the relationship that fits your backlog.",
+    "note": "Need something bigger? Email hello@takotools.com and we’ll tailor a plan.",
+    "tiers": [
+      {
+        "name": "Starter",
+        "price": "$1.2k / project",
+        "description": "Perfect for a single automation or bot.",
+        "features": [
+          "Discovery call & scoped build",
+          "Delivery in 7 days",
+          "30 days of tweaks",
+          "Slack + email support"
+        ],
+        "cta": {
+          "text": "Kick off a project",
+          "link": "mailto:hello@takotools.com?subject=Starter%20Project"
+        }
+      },
+      {
+        "name": "Growth",
+        "price": "$2.4k / month",
+        "description": "Your fractional automation team on speed dial.",
+        "highlight": true,
+        "features": [
+          "Up to 3 builds per month",
+          "Dedicated Tako builder",
+          "Priority support",
+          "Usage analytics dashboard"
+        ],
+        "cta": {
+          "text": "Chat with an octo-expert",
+          "link": "mailto:hello@takotools.com?subject=Growth%20Plan"
+        }
+      },
+      {
+        "name": "Enterprise",
+        "price": "Custom",
+        "description": "Security reviews, custom integrations, and white-glove onboarding.",
+        "features": [
+          "Unlimited stakeholder access",
+          "On-prem or VPC options",
+          "Quarterly strategy workshops",
+          "SLA-backed support"
+        ],
+        "cta": {
+          "text": "Schedule an intro",
+          "link": "mailto:hello@takotools.com?subject=Enterprise%20Plan"
+        }
+      }
+    ]
+  },
+  "footer": {
+    "contactSection": {
+      "title": "Ready to talk to Tako?",
+      "copy": "Book a demo and we’ll start brainstorming your next favorite teammate.",
+      "cta": {
+        "text": "Book a Free Demo",
+        "link": "mailto:hello@takotools.com"
+      }
+    },
+    "contact": [
+      {
+        "label": "Email",
+        "value": "hello@takotools.com"
+      },
+      {
+        "label": "HQ",
+        "value": "Remote — but always within reach"
+      },
+      {
+        "label": "Office hours",
+        "value": "Mon–Fri, 9am–6pm PT"
+      }
+    ],
+    "links": [
+      {
+        "label": "Privacy",
+        "href": "#"
+      },
+      {
+        "label": "Terms",
+        "href": "#"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com",
+        "external": true
+      }
+    ],
+    "copy": "© 2024 Tako. All rights reserved."
+  }
+}

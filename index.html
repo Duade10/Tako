@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tako builds Slack bots, automations, dashboards, and AI assistants for teams." />
+  <title>Tako — Internal Tools That Work Like Magic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="logo">
+        <img src="assets/tako-logo.svg" alt="Tako logo" class="logo-icon" />
+        <span class="logo-text">Tako</span>
+      </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#what-we-build">What We Build</a>
+        <a href="#use-cases">Use Cases</a>
+        <a href="#tool-marketplace">Tools</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="cta-link" id="nav-cta" href="#contact">Book a Free Demo</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="container hero-content">
+        <div class="hero-text">
+          <h1 id="hero-title">Internal Tools That Work Like Magic 🐙</h1>
+          <p id="hero-subtitle">We build Slack bots, automations, and AI assistants so your team doesn’t have to.</p>
+          <div class="hero-cta">
+            <a id="hero-cta" class="btn primary" href="#contact">Book a Free Demo</a>
+            <span class="hero-note" id="hero-note"></span>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="octopus-illustration">
+            <img src="assets/octopus.svg" alt="Friendly octopus mascot" />
+          </div>
+          <div class="bubble bubble-one"></div>
+          <div class="bubble bubble-two"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section light" id="what-we-build">
+      <div class="container">
+        <h2 class="section-title" id="capabilities-title">What We Build</h2>
+        <ul class="pill-list" id="capabilities-list" aria-label="Capabilities"></ul>
+      </div>
+    </section>
+
+    <section class="section" id="use-cases">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="use-cases-title">Popular Use Cases</h2>
+          <p class="section-subtitle" id="use-cases-subtitle"></p>
+        </div>
+        <div class="card-grid" id="use-cases-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section light" id="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="how-it-works-title">How It Works</h2>
+          <p class="section-subtitle" id="how-it-works-subtitle"></p>
+        </div>
+        <div class="stepper" id="steps"></div>
+      </div>
+    </section>
+
+    <section class="section" id="tool-marketplace">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="marketplace-title">Buy Tools &amp; Bots</h2>
+          <p class="section-subtitle" id="marketplace-subtitle"></p>
+        </div>
+        <div class="card-grid tool-grid" id="tool-grid"></div>
+      </div>
+    </section>
+
+    <section class="section light" id="pricing">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="pricing-title">Pricing</h2>
+          <p class="section-subtitle" id="pricing-subtitle"></p>
+        </div>
+        <div class="pricing-grid" id="pricing-grid"></div>
+        <p class="pricing-note" id="pricing-note"></p>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container contact">
+        <div class="contact-card">
+          <h2 id="contact-title">Ready to talk to Tako?</h2>
+          <p id="contact-copy">Book a demo and we’ll start brainstorming your next favorite teammate.</p>
+          <a id="contact-cta" class="btn primary" href="mailto:hello@takotools.com">Book a Free Demo</a>
+        </div>
+        <div class="contact-details">
+          <h3>Contact</h3>
+          <ul id="contact-details-list"></ul>
+          <h3>Links</h3>
+          <ul id="footer-links" class="footer-links"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="logo footer-logo">
+        <img src="assets/tako-logo.svg" alt="Tako logo" class="logo-icon" />
+        <span class="logo-text">Tako</span>
+      </div>
+      <p class="footer-copy" id="footer-copy">© Tako. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

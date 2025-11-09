@@ -39,6 +39,30 @@ function resolveAssetPath(path) {
   return new URL(path.replace(/^\.?\/?/, ''), scriptBaseUrl).toString();
 }
 
+function buildToolDetailUrl(slug) {
+  if (!slug) return null;
+
+  if (typeof window !== 'undefined' && window.location?.href) {
+    try {
+      const currentUrl = new URL(window.location.href);
+      if (/\/tools(?:\.html)?$/.test(currentUrl.pathname)) {
+        const detailUrl = new URL(currentUrl.href);
+        detailUrl.pathname = currentUrl.pathname.replace(/\/tools(?:\.html)?$/, '/tool');
+        detailUrl.search = '';
+        detailUrl.hash = '';
+        detailUrl.searchParams.set('slug', slug);
+        return detailUrl.toString();
+      }
+    } catch (error) {
+      console.error('Unable to resolve tool detail URL from location', error);
+    }
+  }
+
+  const fallback = new URL('tool.html', scriptBaseUrl);
+  fallback.searchParams.set('slug', slug);
+  return fallback.toString();
+}
+
 function createToolCard(tool) {
   const card = document.createElement('article');
   card.className = 'marketplace-card';
@@ -97,8 +121,7 @@ function createToolCard(tool) {
   actions.appendChild(primaryCta);
 
   const secondaryLink =
-    tool.secondaryCta?.link ||
-    (tool.slug ? new URL(`tool.html?slug=${encodeURIComponent(tool.slug)}`, scriptBaseUrl).toString() : null);
+    tool.secondaryCta?.link || (tool.slug ? buildToolDetailUrl(tool.slug) : null);
   const secondaryLabel = tool.secondaryCta?.text || (secondaryLink ? 'See features' : null);
 
   if (secondaryLink && secondaryLabel) {

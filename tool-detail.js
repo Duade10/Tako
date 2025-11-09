@@ -58,12 +58,12 @@ function replaceUrlWithSlug(slug) {
   if (!slug) return;
 
   const currentUrl = new URL(window.location.href);
-  const toolHtmlUrl = new URL('tool.html', scriptBaseUrl);
+  const desiredPathname = window.location.pathname;
 
   let hasChanges = false;
 
-  if (currentUrl.pathname !== toolHtmlUrl.pathname) {
-    currentUrl.pathname = toolHtmlUrl.pathname;
+  if (currentUrl.pathname !== desiredPathname) {
+    currentUrl.pathname = desiredPathname;
     hasChanges = true;
   }
 
@@ -75,6 +75,22 @@ function replaceUrlWithSlug(slug) {
   if (hasChanges) {
     history.replaceState(null, '', currentUrl.toString());
   }
+}
+
+function buildToolDetailUrl(slug) {
+  if (!slug) return null;
+
+  if (typeof window !== 'undefined' && window.location?.href) {
+    const detailUrl = new URL(window.location.href);
+    detailUrl.search = '';
+    detailUrl.hash = '';
+    detailUrl.searchParams.set('slug', slug);
+    return detailUrl.toString();
+  }
+
+  const fallback = new URL('tool.html', scriptBaseUrl);
+  fallback.searchParams.set('slug', slug);
+  return fallback.toString();
 }
 
 function populateTags(tags) {
@@ -338,7 +354,10 @@ function populateRelated(currentSlug, tools = []) {
 
     const link = document.createElement('a');
     link.className = 'btn secondary';
-    link.href = `tool.html?slug=${encodeURIComponent(tool.slug)}`;
+    const detailUrl = buildToolDetailUrl(tool.slug);
+    if (detailUrl) {
+      link.href = detailUrl;
+    }
     link.textContent = 'See features';
     content.appendChild(link);
 

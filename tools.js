@@ -96,7 +96,9 @@ function createToolCard(tool) {
   }
   actions.appendChild(primaryCta);
 
-  const secondaryLink = tool.secondaryCta?.link || (tool.slug ? `tool.html?slug=${encodeURIComponent(tool.slug)}` : null);
+  const secondaryLink =
+    tool.secondaryCta?.link ||
+    (tool.slug ? new URL(`tool.html?slug=${encodeURIComponent(tool.slug)}`, scriptBaseUrl).toString() : null);
   const secondaryLabel = tool.secondaryCta?.text || (secondaryLink ? 'See features' : null);
 
   if (secondaryLink && secondaryLabel) {

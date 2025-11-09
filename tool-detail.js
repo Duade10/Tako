@@ -1,32 +1,26 @@
-const scriptBaseUrl = (() => {
-  if (typeof document !== 'undefined') {
-    const currentScript = document.currentScript;
-    if (currentScript?.src) {
-      return new URL('.', currentScript.src);
-    }
-  }
-  return new URL('.', window.location.href);
-})();
+import React, { useEffect, useMemo, useState } from 'https://esm.sh/react@18.2.0';
+import { createRoot } from 'https://esm.sh/react-dom@18.2.0/client';
 
+const scriptBaseUrl = new URL('.', import.meta.url);
 const toolsUrl = new URL('data/tools.json', scriptBaseUrl).toString();
 
-async function loadTools() {
-  const response = await fetch(toolsUrl);
-  if (!response.ok) {
-    throw new Error(`Failed to load tool data: ${response.status}`);
-  }
-  return response.json();
+const DEFAULT_CONTACT = {
+  href: 'mailto:hello@takotools.com',
+  label: 'Talk to Tako',
+};
+
+function isExternalLink(href) {
+  return typeof href === 'string' && /^https?:/i.test(href);
 }
 
-function configureLinkTarget(anchor, href) {
-  if (!anchor) return;
-  if (href && href.startsWith('http')) {
-    anchor.target = '_blank';
-    anchor.rel = 'noreferrer noopener';
-  } else {
-    anchor.removeAttribute('target');
-    anchor.removeAttribute('rel');
+function linkProps(href) {
+  if (isExternalLink(href)) {
+    return {
+      target: '_blank',
+      rel: 'noreferrer noopener',
+    };
   }
+  return {};
 }
 
 function resolveAssetPath(path) {
@@ -38,6 +32,10 @@ function resolveAssetPath(path) {
 }
 
 function getSlugFromLocation() {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   const currentUrl = new URL(window.location.href);
   const searchSlug = currentUrl.searchParams.get('slug');
   if (searchSlug) return searchSlug;
@@ -55,7 +53,7 @@ function getSlugFromLocation() {
 }
 
 function replaceUrlWithSlug(slug) {
-  if (!slug) return;
+  if (typeof window === 'undefined' || !slug) return;
 
   const currentUrl = new URL(window.location.href);
   const desiredPathname = window.location.pathname;
@@ -93,324 +91,436 @@ function buildToolDetailUrl(slug) {
   return fallback.toString();
 }
 
-function populateTags(tags) {
-  const tagsContainer = document.getElementById('tool-tags');
-  if (!tagsContainer) return;
-  if (!Array.isArray(tags) || !tags.length) {
-    tagsContainer.textContent = '';
-    tagsContainer.hidden = true;
-    return;
-  }
-
-  tagsContainer.hidden = false;
-  tagsContainer.innerHTML = '';
-  tags.forEach((tag) => {
-    const pill = document.createElement('span');
-    pill.className = 'tool-tag';
-    pill.textContent = tag;
-    tagsContainer.appendChild(pill);
-  });
+function Header({ navCta }) {
+  const cta = navCta ?? DEFAULT_CONTACT;
+  return (
+    <header className="site-header">
+      <div className="container nav">
+        <div className="logo">
+          <img src="assets/tako-logo.svg" alt="Tako logo" className="logo-icon" />
+          <span className="logo-text">Tako</span>
+        </div>
+        <nav className="nav-links" aria-label="Main navigation">
+          <a href="index.html#hero">Home</a>
+          <a href="tools/" aria-current="page">
+            Tools
+          </a>
+          <a href="index.html#contact">Contact</a>
+        </nav>
+        <a className="cta-link" id="detail-nav-cta" href={cta.href} {...linkProps(cta.href)}>
+          {cta.label}
+        </a>
+      </div>
+    </header>
+  );
 }
 
-function populateFeatures(features = []) {
-  const section = document.getElementById('tool-features');
-  const grid = document.getElementById('tool-feature-grid');
-  if (!section || !grid) return;
-
-  if (!Array.isArray(features) || !features.length) {
-    section.hidden = true;
-    return;
-  }
-
-  grid.innerHTML = '';
-  features.forEach((feature) => {
-    const card = document.createElement('article');
-    card.className = 'feature-card';
-
-    if (feature.icon) {
-      const icon = document.createElement('span');
-      icon.className = 'feature-card__icon';
-      icon.textContent = feature.icon;
-      icon.setAttribute('aria-hidden', 'true');
-      card.appendChild(icon);
-    }
-
-    const title = document.createElement('h3');
-    title.textContent = feature.title || 'Feature';
-    card.appendChild(title);
-
-    if (feature.description) {
-      const description = document.createElement('p');
-      description.innerHTML = feature.description;
-      card.appendChild(description);
-    }
-
-    grid.appendChild(card);
-  });
-
-  section.hidden = false;
+function Footer() {
+  return (
+    <footer className="site-footer">
+      <div className="container footer-inner">
+        <div className="logo footer-logo">
+          <img src="assets/tako-logo.svg" alt="Tako logo" className="logo-icon" />
+          <span className="logo-text">Tako</span>
+        </div>
+        <p className="footer-copy">
+          Need something custom? <a href="mailto:hello@takotools.com">Email hello@takotools.com</a>
+        </p>
+      </div>
+    </footer>
+  );
 }
 
-function populateSteps(steps = []) {
-  const section = document.getElementById('tool-how');
-  const list = document.getElementById('tool-steps');
-  if (!section || !list) return;
-
-  if (!Array.isArray(steps) || !steps.length) {
-    section.hidden = true;
-    return;
-  }
-
-  list.innerHTML = '';
-  steps.forEach((step, index) => {
-    const item = document.createElement('li');
-    item.className = 'tool-step';
-
-    const badge = document.createElement('span');
-    badge.className = 'tool-step__number';
-    badge.textContent = index + 1;
-    item.appendChild(badge);
-
-    const content = document.createElement('div');
-    content.className = 'tool-step__content';
-
-    if (typeof step === 'string') {
-      const text = document.createElement('p');
-      text.innerHTML = step;
-      content.appendChild(text);
-    } else {
-      const title = document.createElement('h3');
-      title.textContent = step.title || `Step ${index + 1}`;
-      content.appendChild(title);
-
-      if (step.description) {
-        const description = document.createElement('p');
-        description.innerHTML = step.description;
-        content.appendChild(description);
-      }
-    }
-
-    item.appendChild(content);
-    list.appendChild(item);
-  });
-
-  section.hidden = false;
+function HeroSection({ status, tool, primaryCta, secondaryCta }) {
+  const tags = Array.isArray(tool?.tags) ? tool.tags : [];
+  const hasTags = tags.length > 0;
+  const summaryHtml = tool?.summary || tool?.description || '';
+  const imageSource = tool?.image ? resolveAssetPath(tool.image) : '';
+  return (
+    <section className="tool-detail-hero" id="tool-hero">
+      <div className="container tool-hero__inner">
+        <a className="back-link" href="tools/">
+          &larr; Back to all tools
+        </a>
+        <p className="tool-hero__tagline" id="tool-tags" hidden={!hasTags}>
+          {hasTags &&
+            tags.map((tag, index) => (
+              <span key={`${tag}-${index}`} className="tool-tag">
+                {tag}
+              </span>
+            ))}
+        </p>
+        <h1 className="tool-hero__title" id="tool-title">
+          {status === 'loading' ? 'Loading...' : tool?.title || 'Tool'}
+        </h1>
+        <p
+          className="tool-hero__summary"
+          id="tool-summary"
+          hidden={!summaryHtml}
+          dangerouslySetInnerHTML={{ __html: summaryHtml }}
+        />
+        <div className="tool-hero__media" id="tool-media" hidden={!imageSource}>
+          {imageSource && (
+            <img id="tool-image" src={imageSource} alt={tool?.title ? `${tool.title} preview` : 'Tool visual'} />
+          )}
+        </div>
+        <div className="tool-hero__actions">
+          {primaryCta ? (
+            <a className="btn primary" id="tool-primary-cta" href={primaryCta.href} {...linkProps(primaryCta.href)}>
+              {primaryCta.label}
+            </a>
+          ) : null}
+          {secondaryCta ? (
+            <a className="btn secondary" id="tool-secondary-cta" href={secondaryCta.href} {...linkProps(secondaryCta.href)}>
+              {secondaryCta.label}
+            </a>
+          ) : null}
+        </div>
+      </div>
+    </section>
+  );
 }
 
-function populateVideo(videoUrl) {
-  const section = document.getElementById('tool-video');
-  const iframe = document.getElementById('tool-video-embed');
-  if (!section || !iframe) return;
+function FeaturesSection({ features }) {
+  if (!Array.isArray(features) || features.length === 0) {
+    return null;
+  }
+  return (
+    <section className="tool-detail-section" id="tool-features">
+      <div className="container">
+        <h2 className="tool-section-title">🔧 What This Tool Can Do</h2>
+        <div className="feature-grid" id="tool-feature-grid">
+          {features.map((feature, index) => (
+            <article key={feature.title || index} className="feature-card">
+              {feature.icon ? (
+                <span className="feature-card__icon" aria-hidden="true">
+                  {feature.icon}
+                </span>
+              ) : null}
+              <h3>{feature.title || 'Feature'}</h3>
+              {feature.description ? (
+                <p dangerouslySetInnerHTML={{ __html: feature.description }} />
+              ) : null}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StepsSection({ steps }) {
+  if (!Array.isArray(steps) || steps.length === 0) {
+    return null;
+  }
+  return (
+    <section className="tool-detail-section" id="tool-how">
+      <div className="container">
+        <h2 className="tool-section-title">🧠 How It Works</h2>
+        <ol className="tool-steps" id="tool-steps">
+          {steps.map((step, index) => (
+            <li key={index} className="tool-step">
+              <span className="tool-step__number">{index + 1}</span>
+              <div className="tool-step__content">
+                {typeof step === 'string' ? (
+                  <p dangerouslySetInnerHTML={{ __html: step }} />
+                ) : (
+                  <>
+                    <h3>{step.title || `Step ${index + 1}`}</h3>
+                    {step.description ? (
+                      <p dangerouslySetInnerHTML={{ __html: step.description }} />
+                    ) : null}
+                  </>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+function VideoSection({ videoUrl }) {
   if (!videoUrl) {
-    section.hidden = true;
-    iframe.src = '';
-    return;
+    return null;
   }
-
-  iframe.src = videoUrl;
-  section.hidden = false;
+  return (
+    <section className="tool-detail-section" id="tool-video">
+      <div className="container">
+        <div className="video-frame">
+          <iframe
+            id="tool-video-embed"
+            src={videoUrl}
+            title="Tool walkthrough video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </div>
+    </section>
+  );
 }
 
-function populateBenefits(benefits = []) {
-  const section = document.getElementById('tool-benefits');
-  const list = document.getElementById('tool-benefits-list');
-  if (!section || !list) return;
-
-  if (!Array.isArray(benefits) || !benefits.length) {
-    section.hidden = true;
-    return;
+function BenefitsSection({ benefits }) {
+  if (!Array.isArray(benefits) || benefits.length === 0) {
+    return null;
   }
-
-  list.innerHTML = '';
-  benefits.forEach((benefit) => {
-    const item = document.createElement('li');
-    item.innerHTML = benefit;
-    list.appendChild(item);
-  });
-
-  section.hidden = false;
+  return (
+    <section className="tool-detail-section" id="tool-benefits">
+      <div className="container">
+        <h2 className="tool-section-title">💡 Why Use This Tool?</h2>
+        <ul className="benefit-list" id="tool-benefits-list">
+          {benefits.map((benefit, index) => (
+            <li key={index} dangerouslySetInnerHTML={{ __html: benefit }} />
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
 }
 
-function populatePricing(tool) {
-  const section = document.getElementById('pricing');
-  const priceEl = document.getElementById('tool-price');
-  const supportEl = document.getElementById('tool-support');
-  const pricingCta = document.getElementById('tool-pricing-cta');
-  const contactCta = document.getElementById('tool-contact');
-  const heroPrimary = document.getElementById('tool-primary-cta');
-  const heroSecondary = document.getElementById('tool-secondary-cta');
-  const navCta = document.getElementById('detail-nav-cta');
-
-  if (!section) return;
-
-  if (!tool.price && !tool.checkout_url) {
-    section.hidden = true;
-  } else {
-    if (priceEl) priceEl.textContent = tool.price || '';
-    if (supportEl) supportEl.textContent = tool.support_policy || '';
-    section.hidden = false;
+function PricingSection({ tool }) {
+  const hasPricing = Boolean(tool?.price || tool?.checkout_url);
+  if (!hasPricing) {
+    return null;
   }
 
   const checkoutUrl = tool.checkout_url || tool.link || '#';
-  if (pricingCta) {
-    pricingCta.href = checkoutUrl;
-    pricingCta.textContent = tool.checkoutCtaText || tool.ctaText || 'Buy Now';
-    configureLinkTarget(pricingCta, checkoutUrl);
-  }
+  const pricingLabel = tool.checkoutCtaText || tool.ctaText || 'Buy Now';
+  const contactLink = tool.link || DEFAULT_CONTACT.href;
 
-  if (heroPrimary) {
-    heroPrimary.hidden = !tool.checkout_url;
-    if (tool.checkout_url) {
-      heroPrimary.href = tool.checkout_url;
-      heroPrimary.textContent = tool.ctaText || 'Buy Now';
-      configureLinkTarget(heroPrimary, tool.checkout_url);
-    }
-  }
-
-  if (heroSecondary) {
-    const secondaryLink = tool.secondaryCta?.link || tool.link || 'mailto:hello@takotools.com';
-    const secondaryLabel = tool.secondaryCta?.text || 'Request setup';
-    heroSecondary.hidden = false;
-    heroSecondary.href = secondaryLink;
-    heroSecondary.textContent = secondaryLabel;
-    configureLinkTarget(heroSecondary, secondaryLink);
-  }
-
-  if (contactCta) {
-    const contactLink = tool.link || 'mailto:hello@takotools.com';
-    contactCta.href = contactLink;
-    configureLinkTarget(contactCta, contactLink);
-  }
-
-  if (navCta) {
-    if (tool.link) {
-      navCta.href = tool.link;
-      navCta.textContent = tool.ctaText || 'Talk to Tako';
-      configureLinkTarget(navCta, tool.link);
-    } else if (tool.checkout_url) {
-      navCta.href = tool.checkout_url;
-      navCta.textContent = tool.ctaText || 'Buy Now';
-      configureLinkTarget(navCta, tool.checkout_url);
-    }
-  }
+  return (
+    <section className="tool-detail-section tool-pricing" id="pricing">
+      <div className="container tool-pricing__inner">
+        <div>
+          <h2 className="tool-section-title">Pricing</h2>
+          <p className="tool-pricing__price" id="tool-price">
+            {tool.price || ''}
+          </p>
+          <p className="tool-pricing__support" id="tool-support">
+            {tool.support_policy || ''}
+          </p>
+        </div>
+        <div className="tool-pricing__actions">
+          <a
+            className="btn primary"
+            id="tool-pricing-cta"
+            href={checkoutUrl}
+            {...linkProps(checkoutUrl)}
+          >
+            {pricingLabel}
+          </a>
+          <a
+            className="btn secondary"
+            id="tool-contact"
+            href={contactLink}
+            {...linkProps(contactLink)}
+          >
+            Talk to Tako
+          </a>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-function populateHero(tool) {
-  const titleEl = document.getElementById('tool-title');
-  const summaryEl = document.getElementById('tool-summary');
-  const mediaWrapper = document.getElementById('tool-media');
-  const imageEl = document.getElementById('tool-image');
-
-  if (titleEl) titleEl.textContent = tool.title || 'Tool';
-  if (summaryEl) summaryEl.innerHTML = tool.summary || tool.description || '';
-
-  if (tool.image && mediaWrapper && imageEl) {
-    imageEl.src = resolveAssetPath(tool.image);
-    imageEl.alt = tool.title ? `${tool.title} preview` : 'Tool visual';
-    mediaWrapper.hidden = false;
-  } else if (mediaWrapper) {
-    mediaWrapper.hidden = true;
+function RelatedSection({ currentSlug, tools }) {
+  if (!Array.isArray(tools) || tools.length === 0) {
+    return null;
   }
-
-  document.title = tool.title ? `${tool.title} • Tako` : 'Tako Tool';
-}
-
-function populateRelated(currentSlug, tools = []) {
-  const section = document.getElementById('tool-related');
-  const grid = document.getElementById('related-grid');
-  if (!section || !grid) return;
 
   const related = tools.filter((tool) => tool.slug && tool.slug !== currentSlug).slice(0, 3);
   if (!related.length) {
-    section.hidden = true;
-    return;
+    return null;
   }
 
-  grid.innerHTML = '';
-  related.forEach((tool) => {
-    const card = document.createElement('article');
-    card.className = 'related-card';
-
-    const imageSource = resolveAssetPath(tool.image);
-    if (imageSource) {
-      const img = document.createElement('img');
-      img.src = imageSource;
-      img.alt = tool.title ? `${tool.title} preview` : 'Related tool';
-      card.appendChild(img);
-    }
-
-    const content = document.createElement('div');
-    content.className = 'related-card__content';
-
-    const title = document.createElement('h3');
-    title.textContent = tool.title || 'Tool';
-    content.appendChild(title);
-
-    if (tool.summary) {
-      const summary = document.createElement('p');
-      summary.textContent = tool.summary;
-      content.appendChild(summary);
-    }
-
-    const link = document.createElement('a');
-    link.className = 'btn secondary';
-    const detailUrl = buildToolDetailUrl(tool.slug);
-    if (detailUrl) {
-      link.href = detailUrl;
-    }
-    link.textContent = 'See features';
-    content.appendChild(link);
-
-    card.appendChild(content);
-    grid.appendChild(card);
-  });
-
-  section.hidden = false;
+  return (
+    <section className="tool-detail-section tool-related" id="tool-related">
+      <div className="container">
+        <h2 className="tool-section-title">Related Tools</h2>
+        <div className="related-grid" id="related-grid">
+          {related.map((tool) => {
+            const imageSource = resolveAssetPath(tool.image);
+            return (
+              <article key={tool.slug} className="related-card">
+                {imageSource ? (
+                  <img src={imageSource} alt={tool.title ? `${tool.title} preview` : 'Related tool'} />
+                ) : null}
+                <div className="related-card__content">
+                  <h3>{tool.title || 'Tool'}</h3>
+                  {tool.summary ? <p>{tool.summary}</p> : null}
+                  <a className="btn secondary" href={buildToolDetailUrl(tool.slug)}>
+                    See features
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
 }
 
-function showErrorState() {
-  const heroSection = document.getElementById('tool-hero');
-  const sections = document.querySelectorAll('.tool-detail-section');
-  sections.forEach((section) => {
-    if (section.id === 'tool-error') {
-      section.hidden = false;
-    } else {
-      section.hidden = true;
-    }
-  });
-  if (heroSection) heroSection.hidden = true;
-  document.title = 'Tool not found • Tako';
+function ErrorSection() {
+  return (
+    <section className="tool-detail-section" id="tool-error">
+      <div className="container">
+        <div className="tool-error">
+          <h1>Tool not found</h1>
+          <p>We couldn&apos;t find that tool. It might be unpublished or the link is outdated.</p>
+          <a className="btn primary" href="tools/">
+            Browse all tools
+          </a>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-async function init() {
-  const slug = getSlugFromLocation();
-  if (!slug) {
-    showErrorState();
-    return;
-  }
+function PageLayout({ navCta, children }) {
+  return (
+    <>
+      <Header navCta={navCta} />
+      {children}
+      <Footer />
+    </>
+  );
+}
 
-  try {
-    const data = await loadTools();
-    const tools = Array.isArray(data?.items) ? data.items : [];
-    const tool = tools.find((item) => item.slug === slug);
-    if (!tool) {
-      showErrorState();
+function ToolDetailPage() {
+  const slug = useMemo(() => getSlugFromLocation(), []);
+  const [state, setState] = useState(() => ({
+    status: slug ? 'loading' : 'missing-slug',
+    tool: null,
+    tools: [],
+  }));
+
+  useEffect(() => {
+    document.body.classList.add('tool-detail-page');
+    return () => {
+      document.body.classList.remove('tool-detail-page');
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!slug) {
       return;
     }
 
-    replaceUrlWithSlug(slug);
-    populateHero(tool);
-    populateTags(tool.tags);
-    populateFeatures(tool.features);
-    populateSteps(tool.how_it_works);
-    populateVideo(tool.video_url);
-    populateBenefits(tool.benefits);
-    populatePricing(tool);
-    populateRelated(tool.slug, tools);
-  } catch (error) {
-    console.error(error);
-    showErrorState();
+    let cancelled = false;
+
+    async function fetchTools() {
+      try {
+        const response = await fetch(toolsUrl);
+        if (!response.ok) {
+          throw new Error(`Failed to load tool data: ${response.status}`);
+        }
+        const data = await response.json();
+        const items = Array.isArray(data?.items) ? data.items : [];
+        const tool = items.find((item) => item.slug === slug) ?? null;
+
+        if (!cancelled) {
+          if (tool) {
+            setState({ status: 'loaded', tool, tools: items });
+          } else {
+            setState({ status: 'not-found', tool: null, tools: items });
+          }
+        }
+      } catch (error) {
+        console.error(error);
+        if (!cancelled) {
+          setState({ status: 'error', tool: null, tools: [] });
+        }
+      }
+    }
+
+    fetchTools();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
+
+  useEffect(() => {
+    if (state.status === 'loaded' && slug && state.tool) {
+      replaceUrlWithSlug(slug);
+      document.title = state.tool.title ? `${state.tool.title} • Tako` : 'Tako Tool';
+    } else if (state.status === 'loading') {
+      document.title = 'Loading tool • Tako';
+    } else if (state.status === 'not-found' || state.status === 'missing-slug') {
+      document.title = 'Tool not found • Tako';
+    } else if (state.status === 'error') {
+      document.title = 'Error loading tool • Tako';
+    }
+  }, [slug, state]);
+
+  const navCta = useMemo(() => {
+    if (state.status === 'loaded' && state.tool) {
+      if (state.tool.link) {
+        return { href: state.tool.link, label: state.tool.ctaText || 'Talk to Tako' };
+      }
+      if (state.tool.checkout_url) {
+        return { href: state.tool.checkout_url, label: state.tool.ctaText || 'Buy Now' };
+      }
+    }
+    return DEFAULT_CONTACT;
+  }, [state]);
+
+  if (state.status === 'missing-slug' || state.status === 'not-found' || state.status === 'error') {
+    return (
+      <PageLayout navCta={navCta}>
+        <main id="tool-detail" className="tool-detail" aria-live="polite">
+          <ErrorSection />
+        </main>
+      </PageLayout>
+    );
   }
+
+  if (state.status === 'loading') {
+    return (
+      <PageLayout navCta={navCta}>
+        <main id="tool-detail" className="tool-detail" aria-live="polite">
+          <HeroSection status="loading" tool={null} primaryCta={null} secondaryCta={null} />
+        </main>
+      </PageLayout>
+    );
+  }
+
+  const tool = state.tool;
+  const tools = state.tools;
+
+  const primaryCta = tool?.checkout_url
+    ? {
+        href: tool.checkout_url,
+        label: tool.ctaText || 'Buy Now',
+      }
+    : null;
+
+  const secondaryCta = {
+    href: tool?.secondaryCta?.link || tool?.link || DEFAULT_CONTACT.href,
+    label: tool?.secondaryCta?.text || 'Request setup',
+  };
+
+  return (
+    <PageLayout navCta={navCta}>
+      <main id="tool-detail" className="tool-detail" aria-live="polite">
+        <HeroSection status="loaded" tool={tool} primaryCta={primaryCta} secondaryCta={secondaryCta} />
+        <FeaturesSection features={tool?.features} />
+        <StepsSection steps={tool?.how_it_works} />
+        <VideoSection videoUrl={tool?.video_url} />
+        <BenefitsSection benefits={tool?.benefits} />
+        <PricingSection tool={tool} />
+        <RelatedSection currentSlug={tool?.slug} tools={tools} />
+      </main>
+    </PageLayout>
+  );
 }
 
-document.addEventListener('DOMContentLoaded', init);
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = createRoot(rootElement);
+  root.render(<ToolDetailPage />);
+}

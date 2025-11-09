@@ -55,28 +55,26 @@ function getSlugFromLocation() {
 }
 
 function replaceUrlWithSlug(slug) {
-  const segments = window.location.pathname.split('/').filter(Boolean);
-  const hasSlugSegment = segments.includes('tools') && segments.indexOf('tools') < segments.length - 1;
-  if (hasSlugSegment) return;
+  if (!slug) return;
 
-  let basePath = window.location.pathname;
-  if (basePath.endsWith('tool.html')) {
-    basePath = basePath.slice(0, -'tool.html'.length);
-  }
-  if (!basePath.endsWith('/')) {
-    basePath += '/';
-  }
+  const currentUrl = new URL(window.location.href);
+  const toolHtmlUrl = new URL('tool.html', scriptBaseUrl);
 
-  const normalizedBasePath = basePath || '/';
-  const targetPath = `${normalizedBasePath}tools/${slug}`;
-  if (window.location.pathname === targetPath) {
-    return;
+  let hasChanges = false;
+
+  if (currentUrl.pathname !== toolHtmlUrl.pathname) {
+    currentUrl.pathname = toolHtmlUrl.pathname;
+    hasChanges = true;
   }
 
-  const url = new URL(window.location.href);
-  url.pathname = targetPath;
-  url.search = '';
-  history.replaceState(null, '', url.toString());
+  if (currentUrl.searchParams.get('slug') !== slug) {
+    currentUrl.searchParams.set('slug', slug);
+    hasChanges = true;
+  }
+
+  if (hasChanges) {
+    history.replaceState(null, '', currentUrl.toString());
+  }
 }
 
 function populateTags(tags) {

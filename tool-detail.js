@@ -66,10 +66,17 @@ function replaceUrlWithSlug(slug) {
   if (!basePath.endsWith('/')) {
     basePath += '/';
   }
-  const newUrl = `${basePath}tools/${slug}`;
-  if (window.location.pathname !== newUrl) {
-    history.replaceState(null, '', newUrl + window.location.hash);
+
+  const normalizedBasePath = basePath || '/';
+  const targetPath = `${normalizedBasePath}tools/${slug}`;
+  if (window.location.pathname === targetPath) {
+    return;
   }
+
+  const url = new URL(window.location.href);
+  url.pathname = targetPath;
+  url.search = '';
+  history.replaceState(null, '', url.toString());
 }
 
 function populateTags(tags) {

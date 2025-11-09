@@ -60,21 +60,25 @@ function createToolCard(tool) {
 
   const primaryCta = document.createElement('a');
   primaryCta.className = 'btn primary marketplace-card__cta';
-  primaryCta.href = tool.link || '#contact';
-  primaryCta.textContent = tool.ctaText || 'Learn More';
-  const primaryOpensNewTab = tool.link?.startsWith('http');
+  const primaryLink = tool.checkout_url || tool.link || '#contact';
+  primaryCta.href = primaryLink;
+  primaryCta.textContent = tool.ctaText || (tool.checkout_url ? 'Buy Now' : 'Learn More');
+  const primaryOpensNewTab = primaryLink.startsWith('http');
   primaryCta.target = primaryOpensNewTab ? '_blank' : '_self';
   if (primaryOpensNewTab) {
     primaryCta.rel = 'noreferrer noopener';
   }
   actions.appendChild(primaryCta);
 
-  if (tool.secondaryCta) {
+  const secondaryLink = tool.secondaryCta?.link || (tool.slug ? `tool.html?slug=${encodeURIComponent(tool.slug)}` : null);
+  const secondaryLabel = tool.secondaryCta?.text || (secondaryLink ? 'See features' : null);
+
+  if (secondaryLink && secondaryLabel) {
     const secondaryCta = document.createElement('a');
     secondaryCta.className = 'btn secondary marketplace-card__cta';
-    secondaryCta.href = tool.secondaryCta.link || '#contact';
-    secondaryCta.textContent = tool.secondaryCta.text;
-    if (tool.secondaryCta.link?.startsWith('http')) {
+    secondaryCta.href = secondaryLink;
+    secondaryCta.textContent = secondaryLabel;
+    if (secondaryLink.startsWith('http')) {
       secondaryCta.target = '_blank';
       secondaryCta.rel = 'noreferrer noopener';
     } else {

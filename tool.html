@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Detailed overview of Tako tools, automations, and assistants." />
+  <title>Tako Tool Details</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="tool-detail-page">
+  <header class="site-header">
+    <div class="container nav">
+      <div class="logo">
+        <img src="assets/tako-logo.svg" alt="Tako logo" class="logo-icon" />
+        <span class="logo-text">Tako</span>
+      </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html#hero">Home</a>
+        <a href="tools.html" aria-current="page">Tools</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <a class="cta-link" id="detail-nav-cta" href="mailto:hello@takotools.com">Talk to Tako</a>
+    </div>
+  </header>
+
+  <main id="tool-detail" class="tool-detail" aria-live="polite">
+    <section class="tool-detail-hero" id="tool-hero">
+      <div class="container tool-hero__inner">
+        <a class="back-link" href="tools.html">&larr; Back to all tools</a>
+        <p class="tool-hero__tagline" id="tool-tags" aria-live="polite"></p>
+        <h1 class="tool-hero__title" id="tool-title">Loading...</h1>
+        <p class="tool-hero__summary" id="tool-summary"></p>
+        <div class="tool-hero__media" id="tool-media" hidden>
+          <img id="tool-image" alt="" />
+        </div>
+        <div class="tool-hero__actions">
+          <a class="btn primary" id="tool-primary-cta" href="#pricing" hidden>Buy Now</a>
+          <a class="btn secondary" id="tool-secondary-cta" href="mailto:hello@takotools.com" hidden>Request setup</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-detail-section" id="tool-features" hidden>
+      <div class="container">
+        <h2 class="tool-section-title">🔧 What This Tool Can Do</h2>
+        <div class="feature-grid" id="tool-feature-grid"></div>
+      </div>
+    </section>
+
+    <section class="tool-detail-section" id="tool-how" hidden>
+      <div class="container">
+        <h2 class="tool-section-title">🧠 How It Works</h2>
+        <ol class="tool-steps" id="tool-steps"></ol>
+      </div>
+    </section>
+
+    <section class="tool-detail-section" id="tool-video" hidden>
+      <div class="container">
+        <div class="video-frame">
+          <iframe
+            id="tool-video-embed"
+            src=""
+            title="Tool walkthrough video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-detail-section" id="tool-benefits" hidden>
+      <div class="container">
+        <h2 class="tool-section-title">💡 Why Use This Tool?</h2>
+        <ul class="benefit-list" id="tool-benefits-list"></ul>
+      </div>
+    </section>
+
+    <section class="tool-detail-section tool-pricing" id="pricing" hidden>
+      <div class="container tool-pricing__inner">
+        <div>
+          <h2 class="tool-section-title">Pricing</h2>
+          <p class="tool-pricing__price" id="tool-price"></p>
+          <p class="tool-pricing__support" id="tool-support"></p>
+        </div>
+        <div class="tool-pricing__actions">
+          <a class="btn primary" id="tool-pricing-cta" href="#">Buy Now</a>
+          <a class="btn secondary" id="tool-contact" href="mailto:hello@takotools.com">Talk to Tako</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-detail-section tool-related" id="tool-related" hidden>
+      <div class="container">
+        <h2 class="tool-section-title">Related Tools</h2>
+        <div class="related-grid" id="related-grid"></div>
+      </div>
+    </section>
+
+    <section class="tool-detail-section" id="tool-error" hidden>
+      <div class="container">
+        <div class="tool-error">
+          <h1>Tool not found</h1>
+          <p>We couldn&apos;t find that tool. It might be unpublished or the link is outdated.</p>
+          <a class="btn primary" href="tools.html">Browse all tools</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="logo footer-logo">
+        <img src="assets/tako-logo.svg" alt="Tako logo" class="logo-icon" />
+        <span class="logo-text">Tako</span>
+      </div>
+      <p class="footer-copy">Need something custom? <a href="mailto:hello@takotools.com">Email hello@takotools.com</a></p>
+    </div>
+  </footer>
+
+  <script src="tool-detail.js" defer></script>
+</body>
+</html>

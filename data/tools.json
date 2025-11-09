@@ -1,31 +1,138 @@
 {
   "items": [
     {
+      "slug": "standup-bot",
       "title": "Slack Standup Bot",
+      "summary": "Automate daily team check-ins inside Slack with summaries and reminders.",
       "price": "$29",
       "image": "assets/standup-bot.svg",
       "description": "Automate daily standups in Slack with reminders, summaries, and actionable follow-ups.",
       "featured": true,
+      "tags": ["Slack Bot", "Automation", "Async"],
+      "video_url": "https://www.youtube.com/embed/example123",
+      "features": [
+        {
+          "title": "Automated Daily Prompts",
+          "description": "Sends Slack messages to team members at the same time every morning.",
+          "icon": "\u23f0"
+        },
+        {
+          "title": "Summary Collection",
+          "description": "Gathers responses into a single thread or sheet for easy reference.",
+          "icon": "\ud83d\udcc4"
+        },
+        {
+          "title": "Reminder Nudges",
+          "description": "Automatically reminds anyone who still owes an update so nothing is missed.",
+          "icon": "\ud83d\udce2"
+        }
+      ],
+      "how_it_works": [
+        {
+          "title": "Install the bot in Slack",
+          "description": "We help you connect the bot to your workspace and pick the channel for updates."
+        },
+        {
+          "title": "Select your team and schedule",
+          "description": "Choose who receives the prompt and the cadence that keeps everyone aligned."
+        },
+        {
+          "title": "Let Tako handle the rest",
+          "description": "Daily summaries roll into a single thread with optional CSV or sheet exports."
+        }
+      ],
+      "benefits": [
+        "Saves up to 15 mins per day per team",
+        "Improves async communication",
+        "Boosts team visibility and accountability"
+      ],
+      "checkout_url": "https://buy.takotools.com/standup-bot",
+      "support_policy": "14-day guided onboarding with live chat support.",
       "link": "mailto:hello@takotools.com?subject=Slack%20Standup%20Bot",
       "ctaText": "Buy Now"
     },
     {
+      "slug": "lead-scoring-bot",
       "title": "Lead Scoring Bot",
+      "summary": "Prioritize the hottest prospects with automated scoring that syncs to your CRM.",
       "price": "$49",
       "image": "assets/lead-score.svg",
       "description": "Get alerts when leads are hot using your CRM, spreadsheets, and custom scoring rules.",
+      "tags": ["Sales Ops", "CRM"],
+      "features": [
+        {
+          "title": "Real-time Scoring",
+          "description": "Combines product usage, CRM, and marketing signals to keep your pipeline fresh.",
+          "icon": "\ud83d\udcca"
+        },
+        {
+          "title": "Smart Alerts",
+          "description": "Posts priority leads to Slack channels or emails the rep instantly.",
+          "icon": "\ud83d\udce3"
+        }
+      ],
+      "how_it_works": [
+        "Connect Salesforce, HubSpot, or your spreadsheet",
+        "Pick the scoring model that fits your team",
+        "Get daily digests and instant alerts for the hottest leads"
+      ],
+      "benefits": [
+        "Never miss an engaged account",
+        "Shortens follow-up time",
+        "Gives sales leadership a live pulse on pipeline"
+      ],
+      "checkout_url": "https://buy.takotools.com/lead-scoring-bot",
+      "support_policy": "Comes with 30-day performance tuning and office hours.",
       "link": "mailto:hello@takotools.com?subject=Lead%20Scoring%20Bot",
-      "ctaText": "Buy Now",
-      "secondaryCta": {
-        "text": "See features",
-        "link": "index.html#pricing"
-      }
+      "ctaText": "Buy Now"
     },
     {
+      "slug": "ai-support-sidekick",
       "title": "AI Support Sidekick",
+      "summary": "Give your support team an AI teammate that drafts replies, triages tickets, and updates macros automatically.",
       "price": "$79",
       "image": "assets/ai-support.svg",
       "description": "Give your support team an AI teammate that drafts replies, triages tickets, and updates macros automatically.",
+      "tags": ["Customer Support", "AI Assistant"],
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "features": [
+        {
+          "title": "Suggested Replies",
+          "description": "Drafts empathetic responses with your tone of voice baked in.",
+          "icon": "\ud83d\udce9"
+        },
+        {
+          "title": "Auto-triage",
+          "description": "Routes tickets based on priority, sentiment, and topic without manual sorting.",
+          "icon": "\ud83d\udcbb"
+        },
+        {
+          "title": "Knowledge Sync",
+          "description": "Keeps macros, FAQs, and help docs aligned with your latest releases.",
+          "icon": "\ud83d\udcd6"
+        }
+      ],
+      "how_it_works": [
+        {
+          "title": "Connect your help desk",
+          "description": "Works with Zendesk, Intercom, Freshdesk, and more."
+        },
+        {
+          "title": "Train on past conversations",
+          "description": "We fine-tune the assistant with your best-performing replies."
+        },
+        {
+          "title": "Review & deploy",
+          "description": "Enable auto-send, or keep humans-in-the-loop with approvals."
+        }
+      ],
+      "benefits": [
+        "Resolve tickets faster without adding headcount",
+        "Keep quality high with tailored responses",
+        "Free up agents for deep problem solving"
+      ],
+      "checkout_url": "https://buy.takotools.com/ai-support-sidekick",
+      "support_policy": "Includes 1:1 training sessions and quarterly optimization reviews.",
       "link": "mailto:hello@takotools.com?subject=AI%20Support%20Sidekick",
       "ctaText": "Talk to Sales"
     }

@@ -91,6 +91,12 @@ img {
   transition: background 0.2s ease, color 0.2s ease;
 }
 
+.nav-links a[aria-current='page'] {
+  background: rgba(15, 181, 186, 0.16);
+  color: var(--color-accent);
+  box-shadow: 0 8px 16px rgba(15, 181, 186, 0.12);
+}
+
 .nav-links a:hover,
 .nav-links a:focus {
   background: rgba(15, 181, 186, 0.12);
@@ -522,6 +528,197 @@ img {
   color: rgba(30, 42, 56, 0.65);
 }
 
+.tools-page .site-header {
+  position: sticky;
+}
+
+.tools-hero {
+  padding: 120px 0 80px;
+  background: radial-gradient(circle at top left, rgba(15, 181, 186, 0.18), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(30, 42, 56, 0.08), transparent 60%),
+    var(--color-background);
+}
+
+.tools-hero__content {
+  display: grid;
+  gap: 18px;
+  max-width: 640px;
+}
+
+.tools-hero__eyebrow {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(30, 42, 56, 0.6);
+  margin: 0;
+}
+
+.tools-hero__title {
+  font-size: clamp(2.6rem, 3vw + 1rem, 3.6rem);
+  margin: 0;
+}
+
+.tools-hero__subtitle {
+  font-size: 1.2rem;
+  margin: 0;
+  color: rgba(30, 42, 56, 0.8);
+}
+
+.tools-hero__copy {
+  margin: 0;
+  color: rgba(30, 42, 56, 0.7);
+}
+
+.tools-marketplace {
+  padding: 80px 0;
+  background: var(--color-light);
+}
+
+.tools-marketplace__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 36px;
+}
+
+.tools-marketplace__subtitle {
+  margin: 8px 0 0;
+  color: rgba(30, 42, 56, 0.7);
+}
+
+.tools-marketplace__controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-background);
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-soft);
+}
+
+.tools-marketplace__label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: rgba(30, 42, 56, 0.7);
+}
+
+.tools-marketplace__select {
+  border: none;
+  background: transparent;
+  font-weight: 600;
+  color: var(--color-accent);
+  font-family: inherit;
+  padding: 6px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.tools-marketplace__select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(15, 181, 186, 0.28);
+}
+
+.marketplace-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+.marketplace-card {
+  background: var(--color-background);
+  border-radius: var(--radius-medium);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.marketplace-card:hover,
+.marketplace-card:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 44px rgba(30, 42, 56, 0.18);
+}
+
+.marketplace-card__badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: var(--color-primary);
+  color: var(--color-background);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  box-shadow: 0 12px 24px rgba(15, 181, 186, 0.25);
+}
+
+.marketplace-card__media {
+  background: var(--color-light);
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marketplace-card__media img {
+  width: 100%;
+  max-width: 200px;
+}
+
+.marketplace-card__content {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.marketplace-card__title {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.marketplace-card__price {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.marketplace-card__description {
+  margin: 0;
+  color: rgba(30, 42, 56, 0.75);
+}
+
+.marketplace-card__actions {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.marketplace-card__cta {
+  min-width: 140px;
+}
+
+.tools-empty {
+  margin-top: 36px;
+  text-align: center;
+  color: rgba(30, 42, 56, 0.6);
+  font-weight: 600;
+}
+
+.tools-footer {
+  background: var(--color-background);
+}
+
+.tools-footer .footer-copy a {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
 @media (max-width: 768px) {
   .nav {
     flex-wrap: wrap;
@@ -552,9 +749,33 @@ img {
     font-size: 1.05rem;
   }
 
+  .tools-marketplace__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tools-marketplace__controls {
+    align-self: flex-start;
+  }
+
+  .tools-hero {
+    padding: 90px 0 60px;
+  }
+
   .footer-inner {
     flex-direction: column;
     gap: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .tools-marketplace__controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .tools-marketplace__select {
+    width: 100%;
   }
 }
 

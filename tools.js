@@ -1,4 +1,19 @@
-const toolsUrl = 'data/tools.json';
+const toolsUrl = (() => {
+  if (typeof document !== 'undefined') {
+    const currentScript = document.currentScript || document.querySelector('script[src*="tools.js"]');
+    if (currentScript?.src) {
+      return new URL('data/tools.json', currentScript.src).toString();
+    }
+  }
+  if (typeof window !== 'undefined' && window.location?.href) {
+    const origin = window.location.origin;
+    if (origin && origin !== 'null') {
+      return new URL('data/tools.json', `${origin}/`).toString();
+    }
+    return new URL('data/tools.json', window.location.href).toString();
+  }
+  return 'data/tools.json';
+})();
 
 async function loadTools() {
   const response = await fetch(toolsUrl);

@@ -11,63 +11,7 @@
   <link rel="stylesheet" href="../styles.css" />
 </head>
 <body class="tools-page">
-  <header class="site-header">
-    <div class="container nav">
-      <div class="logo">
-        <img src="../assets/tako-logo.svg" alt="Tako logo" class="logo-icon" />
-        <span class="logo-text">Tako</span>
-      </div>
-      <nav class="nav-links" aria-label="Main navigation">
-        <a href="../index.html#hero">Home</a>
-        <a href="." aria-current="page">Tools</a>
-        <a href="../index.html#contact">Contact</a>
-      </nav>
-      <a class="cta-link" href="mailto:hello@takotools.com?subject=Tako%20Tools%20Marketplace">Talk to Tako</a>
-    </div>
-  </header>
-
-  <main>
-    <section class="tools-hero" id="tools-hero">
-      <div class="container tools-hero__content">
-        <p class="tools-hero__eyebrow">Tools Marketplace</p>
-        <h1 class="tools-hero__title">🛠️ Buy Tools &amp; Bots</h1>
-        <p class="tools-hero__subtitle">Ready-made internal tools to save your team hours.</p>
-        <p class="tools-hero__copy">Browse proven automations, Slack bots, and AI sidekicks your team can start using this week.</p>
-      </div>
-    </section>
-
-    <section class="tools-marketplace" aria-labelledby="marketplace-heading">
-      <div class="container">
-        <div class="tools-marketplace__header">
-          <div>
-            <h2 id="marketplace-heading">Shop the latest from Tako</h2>
-            <p class="tools-marketplace__subtitle">Every tool is delivered with onboarding, documentation, and live support.</p>
-          </div>
-          <div class="tools-marketplace__controls" aria-label="Marketplace controls">
-            <label for="sort-select" class="tools-marketplace__label">Sort</label>
-            <select id="sort-select" class="tools-marketplace__select">
-              <option value="featured">Featured</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-            </select>
-          </div>
-        </div>
-        <div id="tools-grid" class="marketplace-grid" aria-live="polite"></div>
-        <p id="tools-empty" class="tools-empty" hidden>No tools are available right now. Check back soon!</p>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer tools-footer">
-    <div class="container footer-inner">
-      <div class="logo footer-logo">
-        <img src="../assets/tako-logo.svg" alt="Tako logo" class="logo-icon" />
-        <span class="logo-text">Tako</span>
-      </div>
-      <p class="footer-copy">Need something custom? <a href="mailto:hello@takotools.com">Email hello@takotools.com</a></p>
-    </div>
-  </footer>
-
-  <script src="../tools.js" defer></script>
+  <div id="root"></div>
+  <script type="module" src="../tools-page.js"></script>
 </body>
 </html>

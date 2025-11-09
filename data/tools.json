@@ -5,6 +5,7 @@
       "price": "$29",
       "image": "assets/standup-bot.svg",
       "description": "Automate daily standups in Slack with reminders, summaries, and actionable follow-ups.",
+      "featured": true,
       "link": "mailto:hello@takotools.com?subject=Slack%20Standup%20Bot",
       "ctaText": "Buy Now"
     },
@@ -17,7 +18,7 @@
       "ctaText": "Buy Now",
       "secondaryCta": {
         "text": "See features",
-        "link": "#pricing"
+        "link": "index.html#pricing"
       }
     },
     {

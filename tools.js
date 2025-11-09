@@ -1,19 +1,21 @@
-const toolsUrl = (() => {
+const scriptBaseUrl = (() => {
   if (typeof document !== 'undefined') {
     const currentScript = document.currentScript || document.querySelector('script[src*="tools.js"]');
     if (currentScript?.src) {
-      return new URL('data/tools.json', currentScript.src).toString();
+      return new URL('.', currentScript.src);
     }
   }
   if (typeof window !== 'undefined' && window.location?.href) {
-    const origin = window.location.origin;
-    if (origin && origin !== 'null') {
-      return new URL('data/tools.json', `${origin}/`).toString();
+    try {
+      return new URL('.', window.location.href);
+    } catch (error) {
+      console.error('Unable to resolve script base URL from location', error);
     }
-    return new URL('data/tools.json', window.location.href).toString();
   }
-  return 'data/tools.json';
+  return new URL('.', 'http://localhost/');
 })();
+
+const toolsUrl = new URL('data/tools.json', scriptBaseUrl).toString();
 
 async function loadTools() {
   const response = await fetch(toolsUrl);
@@ -27,6 +29,14 @@ function parsePrice(priceString) {
   if (!priceString) return Number.POSITIVE_INFINITY;
   const numeric = Number(priceString.replace(/[^0-9.]/g, ''));
   return Number.isFinite(numeric) ? numeric : Number.POSITIVE_INFINITY;
+}
+
+function resolveAssetPath(path) {
+  if (!path) return '';
+  if (/^(?:[a-z]+:|\/\/|data:)/i.test(path)) {
+    return path;
+  }
+  return new URL(path.replace(/^\.?\/?/, ''), scriptBaseUrl).toString();
 }
 
 function createToolCard(tool) {
@@ -43,7 +53,8 @@ function createToolCard(tool) {
   const media = document.createElement('div');
   media.className = 'marketplace-card__media';
   const image = document.createElement('img');
-  image.src = tool.image;
+  const imageSource = resolveAssetPath(tool.image);
+  image.src = imageSource || '';
   image.alt = tool.title || 'Tool preview';
   media.appendChild(image);
   card.appendChild(media);

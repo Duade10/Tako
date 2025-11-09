@@ -1,5 +1,3 @@
-const toolsUrl = 'data/tools.json';
-
 const scriptBaseUrl = (() => {
   if (typeof document !== 'undefined') {
     const currentScript = document.currentScript;
@@ -9,6 +7,8 @@ const scriptBaseUrl = (() => {
   }
   return new URL('.', window.location.href);
 })();
+
+const toolsUrl = new URL('data/tools.json', scriptBaseUrl).toString();
 
 async function loadTools() {
   const response = await fetch(toolsUrl);
